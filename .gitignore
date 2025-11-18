@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# User data and sessions
+user_data/
+
+# Generated data files
+src/scraping/json/hotels_data.json
+src/scraping/json/saved_hotels.json
+src/scraping/json/statistiques.json
+
+# Excel output files
+src/scraping/saveData/datasVilles/*.xlsx
+src/MapLeaflet/resultat.xlsx
+
+# Screenshots
+src/scraping/saveData/images/screenshots/
+
+# Generated map data
+src/MapLeaflet/mapData.js
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp

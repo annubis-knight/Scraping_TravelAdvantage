@@ -1,0 +1,76 @@
+{
+    "villes": [
+      {
+        "nom": "Paris",
+        "hotels": [
+          {
+            "nom": "Hôtel A",
+            "adresse": {
+              "rue": "123 Rue de Paris",
+              "codePostal": "75001"
+            },
+            "note": 4.5,
+            "services": {
+              "wifi": true,
+              "piscine": false,
+              "parking": true
+            },
+            "prix": {
+              "prixTravel": 150,
+              "prixConcurrents": 180
+            },
+            "images": [
+              "http://example.com/imageA1.jpg",
+              "http://example.com/imageA2.jpg"
+            ]
+          },
+          {
+            "nom": "Hôtel B",
+            "adresse": {
+              "rue": "456 Boulevard Saint-Germain",
+              "codePostal": "75006"
+            },
+            "note": 4.0,
+            "services": {
+              "wifi": true,
+              "piscine": true,
+              "parking": false
+            },
+            "prix": {
+              "prixTravel": 130,
+              "prixConcurrents": 160
+            },
+            "images": [
+              "http://example.com/imageB1.jpg"
+            ]
+          }
+        ]
+      },
+      {
+        "nom": "Londres",
+        "hotels": [
+          {
+            "nom": "Hôtel C",
+            "adresse": {
+              "rue": "789 King's Road",
+              "codePostal": "SW3 5UZ"
+            },
+            "note": 4.7,
+            "services": {
+              "wifi": true,
+              "piscine": true,
+              "parking": true
+            },
+            "prix": {
+              "prixTravel": 200,
+              "prixConcurrents": 250
+            },
+            "images": [
+              "http://example.com/imageC1.jpg",
+              "http://example.com/imageC2.jpg"
+            ]
+          }
+        ]
+      }
+    ]
+  }

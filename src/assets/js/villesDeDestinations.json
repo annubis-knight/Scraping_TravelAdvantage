@@ -1,0 +1,380 @@
+{
+    "Paris": {
+      "country": "France",
+      "latitude": 48.8589,
+      "longitude": 2.32,
+      "googlePlacesCountry": "FR"
+    },
+    "Monaco": {
+      "country": "Monaco",
+      "latitude": 43.7384,
+      "longitude": 7.4246,
+      "googlePlacesCountry": "MC"
+    },
+    "Ajaccio": {
+      "country": "Corse",
+      "latitude": 41.9264,
+      "longitude": 8.7376,
+      "googlePlacesCountry": "FR"
+    },
+    "Figari": {
+      "country": "Corse",
+      "latitude": 41.0065,
+      "longitude": 9.6145,
+      "googlePlacesCountry": "IT"
+    },
+    "Aix en provence": {
+      "country": "France",
+      "latitude": 43.5298,
+      "longitude": 5.4475,
+      "googlePlacesCountry": "FR"
+    },
+    "Cassis": {
+      "country": "France",
+      "latitude": 43.214,
+      "longitude": 5.5396,
+      "googlePlacesCountry": "FR"
+    },
+    "Nice": {
+      "country": "France",
+      "latitude": 43.7009,
+      "longitude": 7.2684,
+      "googlePlacesCountry": "FR"
+    },
+    "Bordeaux": {
+      "country": "France",
+      "latitude": 44.8412,
+      "longitude": -0.58,
+      "googlePlacesCountry": "FR"
+    },
+    "Toulouse": {
+      "country": "France",
+      "latitude": 43.6045,
+      "longitude": 1.4442,
+      "googlePlacesCountry": "FR"
+    },
+    "Marseille": {
+      "country": "France",
+      "latitude": 43.2962,
+      "longitude": 5.37,
+      "googlePlacesCountry": "FR"
+    },
+    "Deauville": {
+      "country": "France",
+      "latitude": 49.36,
+      "longitude": 0.0753,
+      "googlePlacesCountry": "FR"
+    },
+    "Arcachon": {
+      "country": "France",
+      "latitude": 44.6616,
+      "longitude": -1.17,
+      "googlePlacesCountry": "FR"
+    },
+    "Saint-Malo": {
+      "country": "France",
+      "latitude": 48.6495,
+      "longitude": -2.026,
+      "googlePlacesCountry": "FR"
+    },
+    "Cannes": {
+      "country": "France",
+      "latitude": 43.5515,
+      "longitude": 7.0134,
+      "googlePlacesCountry": "FR"
+    },
+    "Montpellier": {
+      "country": "France",
+      "latitude": 43.6112,
+      "longitude": 3.8767,
+      "googlePlacesCountry": "FR"
+    },
+    "Sète": {
+      "country": "France",
+      "latitude": 43.4014,
+      "longitude": 3.696,
+      "googlePlacesCountry": "FR"
+    },
+    "Agde": {
+      "country": "France",
+      "latitude": 43.3135,
+      "longitude": 3.4772,
+      "googlePlacesCountry": "FR"
+    },
+    "Biarritz": {
+      "country": "France",
+      "latitude": 43.4833,
+      "longitude": -1.5593,
+      "googlePlacesCountry": "FR"
+    },
+    "Saint-Tropez": {
+      "country": "France",
+      "latitude": 43.2727,
+      "longitude": 6.6405,
+      "googlePlacesCountry": "FR"
+    },
+    "Antibes": {
+      "country": "France",
+      "latitude": 43.5836,
+      "longitude": 7.109,
+      "googlePlacesCountry": "FR"
+    },
+    "Saint-Raphaël": {
+      "country": "France",
+      "latitude": 45.3043,
+      "longitude": 1.0747,
+      "googlePlacesCountry": "FR"
+    },
+    "Madrid": {
+      "country": "Espagne",
+      "latitude": 40.4167,
+      "longitude": -3.7036,
+      "googlePlacesCountry": "ES"
+    },
+    "Rome": {
+      "country": "Italie",
+      "latitude": 41.8933,
+      "longitude": 12.4829,
+      "googlePlacesCountry": "IT"
+    },
+    "Kyoto": {
+      "country": "Japon",
+      "latitude": 35.021,
+      "longitude": 135.7556,
+      "googlePlacesCountry": "JP"
+    },
+    "Tokyo": {
+      "country": "Japon",
+      "latitude": 35.6828,
+      "longitude": 139.7595,
+      "googlePlacesCountry": "JP"
+    },
+    "Lisbonne": {
+      "country": "Portugal",
+      "latitude": 38.7078,
+      "longitude": -9.1366,
+      "googlePlacesCountry": "PT"
+    },
+    "Madeira": {
+      "country": "Portugal",
+      "latitude": 32.7518,
+      "longitude": -16.9817,
+      "googlePlacesCountry": "PT"
+    },
+    "Porto": {
+      "country": "Portugal",
+      "latitude": 41.1495,
+      "longitude": -8.6108,
+      "googlePlacesCountry": "PT"
+    },
+    "Athènes": {
+      "country": "Grèce",
+      "latitude": 37.9839,
+      "longitude": 23.7283,
+      "googlePlacesCountry": "GR"
+    },
+    "Santorini": {
+      "country": "Grèce",
+      "latitude": 36.4622,
+      "longitude": 25.3757,
+      "googlePlacesCountry": "GR"
+    },
+    "Venise": {
+      "country": "Italie",
+      "latitude": 45.4372,
+      "longitude": 12.3346,
+      "googlePlacesCountry": "IT"
+    },
+    "Istanbul": {
+      "country": "Turquie",
+      "latitude": 41.0092,
+      "longitude": 28.9662,
+      "googlePlacesCountry": "TR"
+    },
+    "Barcelone": {
+      "country": "Espagne",
+      "latitude": 41.3829,
+      "longitude": 2.1774,
+      "googlePlacesCountry": "ES"
+    },
+    "Marrakech": {
+      "country": "Maroc",
+      "latitude": 31.6258,
+      "longitude": -7.9892,
+      "googlePlacesCountry": "MA"
+    },
+    "Bangkok": {
+      "country": "Thaïlande",
+      "latitude": 13.7525,
+      "longitude": 100.4935,
+      "googlePlacesCountry": "TH"
+    },
+    "Phuket": {
+      "country": "Thaïlande",
+      "latitude": 7.8848,
+      "longitude": 98.3892,
+      "googlePlacesCountry": "TH"
+    },
+    "Seoul": {
+      "country": "Corée du sud",
+      "latitude": 37.5667,
+      "longitude": 126.9783,
+      "googlePlacesCountry": "KR"
+    },
+    "Bali": {
+      "country": "Indonésie",
+      "latitude": -8.45,
+      "longitude": 115.27,
+      "googlePlacesCountry": "FR"
+    },
+    "Londres": {
+      "country": "Royaume Uni",
+      "latitude": 51.5073,
+      "longitude": -0.1276,
+      "googlePlacesCountry": "GB"
+    },
+    "New york": {
+      "country": "Etats Unis",
+      "latitude": 40.7127,
+      "longitude": -74.006,
+      "googlePlacesCountry": "US"
+    },
+    "Denpasar": {
+      "country": "Indonésie",
+      "latitude": -8.6525,
+      "longitude": 115.2191,
+      "googlePlacesCountry": "ID"
+    },
+    "Pointe-à-Pitre": {
+      "country": "Guadeloupe",
+      "latitude": 16.2409,
+      "longitude": -61.5334,
+      "googlePlacesCountry": "FR"
+    },
+    "Fort-de-France": {
+      "country": "Martinique",
+      "latitude": 14.6028,
+      "longitude": -61.0677,
+      "googlePlacesCountry": "FR"
+    },
+    "Montréal": {
+      "country": "Canada",
+      "latitude": 45.5032,
+      "longitude": -73.5698,
+      "googlePlacesCountry": "CA"
+    },
+    "Saint-Denis": {
+      "country": "La Réunion",
+      "latitude": 48.9358,
+      "longitude": 2.358,
+      "googlePlacesCountry": "FR"
+    },
+    "Luqa": {
+      "country": "Malte",
+      "latitude": 35.8597,
+      "longitude": 14.4893,
+      "googlePlacesCountry": "MT"
+    },
+    "Majorque": {
+      "country": "Îles Baléares",
+      "latitude": 39.6134,
+      "longitude": 2.8829,
+      "googlePlacesCountry": "ES"
+    },
+    "Amsterdam": {
+      "country": "Pays-bas",
+      "latitude": 52.3728,
+      "longitude": 4.8936,
+      "googlePlacesCountry": "NL"
+    },
+    "Berlin": {
+      "country": "Allemagne",
+      "latitude": 52.517,
+      "longitude": 13.3889,
+      "googlePlacesCountry": "DE"
+    },
+    "Prague": {
+      "country": "République Tchèque",
+      "latitude": 50.0875,
+      "longitude": 14.4213,
+      "googlePlacesCountry": "CZ"
+    },
+    "Vienne": {
+      "country": "Autriche",
+      "latitude": 48.2084,
+      "longitude": 16.3725,
+      "googlePlacesCountry": "AT"
+    },
+    "Budapest": {
+      "country": "Hongrie",
+      "latitude": 47.498,
+      "longitude": 19.0404,
+      "googlePlacesCountry": "HU"
+    },
+    "Dubrovnik": {
+      "country": "Croatie",
+      "latitude": 42.6487,
+      "longitude": 18.0947,
+      "googlePlacesCountry": "HR"
+    },
+    "Dubai": {
+      "country": "Emirats arabes unis",
+      "latitude": 25.2653,
+      "longitude": 55.2925,
+      "googlePlacesCountry": "AE"
+    },
+    "Sydney": {
+      "country": "Australie",
+      "latitude": -33.8698,
+      "longitude": 151.2083,
+      "googlePlacesCountry": "AU"
+    },
+    "Rio de janeiro": {
+      "country": "Brésil",
+      "latitude": -22.911,
+      "longitude": -43.2094,
+      "googlePlacesCountry": "BR"
+    },
+    "La Havane": {
+      "country": "Cuba",
+      "latitude": 23.1353,
+      "longitude": -82.359,
+      "googlePlacesCountry": "CU"
+    },
+    "Reykjavik": {
+      "country": "Islande",
+      "latitude": 64.146,
+      "longitude": -21.9422,
+      "googlePlacesCountry": "IS"
+    },
+    "Stockholm": {
+      "country": "Suède",
+      "latitude": 59.3251,
+      "longitude": 18.0711,
+      "googlePlacesCountry": "SE"
+    },
+    "Copenhague": {
+      "country": "Danemark",
+      "latitude": 55.6867,
+      "longitude": 12.5701,
+      "googlePlacesCountry": "DK"
+    },
+    "Oslo": {
+      "country": "Norvège",
+      "latitude": 59.9133,
+      "longitude": 10.739,
+      "googlePlacesCountry": "NO"
+    },
+    "Helsinki": {
+      "country": "Finlande",
+      "latitude": 60.1675,
+      "longitude": 24.9427,
+      "googlePlacesCountry": "FI"
+    },
+    "Punta Cana": {
+      "country": "République Dominicaine",
+      "latitude": 18.556551,
+      "longitude": -68.3691611,
+      "googlePlacesCountry": "DO"
+    }
+  }

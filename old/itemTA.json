@@ -1,0 +1,22 @@
+{
+    "item": {
+        "nomHotel": "Highstay - Luxury Serviced Apartments - Louvre-Rivoli Area",
+        "location": "1st arr., Paris, France",
+        "note": "Note non disponible",
+        "reduction": "79%",
+        "prixTravel": "8456 €",
+        "prixConcurrents": "39621 €",
+        "economiesMembres": "31165 €",
+        "imageUrl": "https://www.traveladvantage.com/hotel/image?q=aHR0cHM6Ly9pLnRyYXZlbGFwaS5jb20vbG9kZ2luZy80NzAwMDAwMC80NjE4MDAwMC80NjE3NjEwMC80NjE3NjAyNC84YmEzNjhmZF96LmpwZw=="
+    },
+    "item2": {
+        "nomHotel": "Highstay - Luxury Serviced Apartments - Louvre-Rivoli Area",
+        "location": "1st arr., Paris, France",
+        "note": "Note non disponible",
+        "reduction": "79%",
+        "prixTravel": "8456 €",
+        "prixConcurrents": "39621 €",
+        "economiesMembres": "31165 €",
+        "imageUrl": "https://www.traveladvantage.com/hotel/image?q=aHR0cHM6Ly9pLnRyYXZlbGFwaS5jb20vbG9kZ2luZy80NzAwMDAwMC80NjE4MDAwMC80NjE3NjEwMC80NjE3NjAyNC84YmEzNjhmZF96LmpwZw=="
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "scripts": {
+    "0:install": "npm install",
+    "0:help": "echo \"📋 SCRIPTS DISPONIBLES:\\n\\n🔧 PHASE 0 - Installation:\\n  npm run 0:install - Installe les dépendances\\n\\n📅 PHASE 1 - Génération des dates:\\n  npm run 1:dates - Génère Dates.json (interactif)\\n  npm run 1:dates-check - Vérifie les dates générées\\n\\n🕷️  PHASE 2 - Scraping:\\n  npm run 2:scrape - Lance le scraping complet\\n  npm run 2:scrape-test - Test de scraping\\n\\n🗺️  PHASE 3 - Génération des cartes:\\n  npm run 3:map-resume - Génère resultat.xlsx\\n  npm run 3:map-data - Génère mapData.js\\n  npm run 3:map-all - Exécute resume + data\\n\\n🌐 PHASE 4 - Serveur web:\\n  npm start - Démarre le serveur (port 3000)\\n  npm run 4:start - Alias de start\\n\\n✅ VÉRIFICATIONS:\\n  npm run check:cities - Liste les villes configurées\\n  npm run check:results - Liste les fichiers Excel générés\\n  npm run check:dates - Affiche les dates\\n\\n🔧 UTILITAIRES:\\n  npm run geocode - Géocodage avec API Ninja\"",
+
+    "1:dates": "node src/dates/index.js",
+    "1:dates-check": "node -e \"const dates = require('./src/scraping/json/Dates.json'); console.log('📅 DATES CONFIGURÉES:', dates.length); dates.slice(0, 10).forEach((d, i) => console.log(`  ${i+1}.`, d.date.fromDate, '→', d.date.toDate, '- Type', d.date.type)); if(dates.length > 10) console.log('  ... et', dates.length - 10, 'autres dates');\"",
+
+    "2:scrape": "node src/scraping/index.js",
+    "2:scrape-test": "node src/scraping/scrapeHotels.js",
+
+    "3:map-resume": "node src/MapLeaflet/index1_generateResume.js",
+    "3:map-data": "node src/MapLeaflet/generateMap.js",
+    "3:map-all": "npm run 3:map-resume && npm run 3:map-data",
+
+    "4:start": "node server.js",
+    "start": "npm run 4:start",
+
+    "check:cities": "node -e \"const XLSX = require('exceljs'); const wb = new XLSX.Workbook(); wb.xlsx.readFile('./src/scraping/villesDeDestinations.xlsx').then(() => { const ws = wb.getWorksheet(1); console.log('🏙️  VILLES CONFIGURÉES:', ws.rowCount - 1); ws.eachRow((row, n) => { if(n > 1) { const ville = row.getCell(1).value; const pays = row.getCell(2).value; console.log(`  ${n-1}. ${ville}, ${pays}`); } }); });\"",
+
+    "check:results": "node -e \"const fs = require('fs'); const path = './src/scraping/saveData/datasVilles'; if(!fs.existsSync(path)) { console.log('❌ Aucun résultat trouvé'); process.exit(0); } const files = fs.readdirSync(path).filter(f => f.endsWith('.xlsx')); console.log('📊 FICHIERS EXCEL GÉNÉRÉS:', files.length); files.forEach((f, i) => console.log(`  ${i+1}. ${f}`));\"",
+
+    "check:dates": "node -e \"const dates = require('./src/scraping/json/Dates.json'); console.log('📅 Total:', dates.length, 'dates'); const types = {1: 'Weekend', 2: 'Semaine', 3: '2 Semaines'}; const count = {1:0, 2:0, 3:0}; dates.forEach(d => count[d.date.type]++); Object.keys(count).forEach(t => console.log(`  - ${types[t]}: ${count[t]}`));\"",
+
+    "geocode": "node src/geoCodingNinja/indexNinjasAPI.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.0",
+    "file-saver": "^2.0.5",
+    "fs": "^0.0.1-security",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
+    "node-fetch": "^2.7.0",
+    "path": "^0.12.7",
+    "puppeteer": "^23.2.0",
+    "readline": "^1.3.0"
+  }
+}

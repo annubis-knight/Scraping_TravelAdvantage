@@ -1,0 +1,192 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.main-container {
+    max-width: 90vw;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.table-container {
+    margin-bottom: 20px; 
+}
+
+.hotel-data {
+    border-collapse: separate; /* Permet d'ajouter de l'espace entre les lignes */
+    border-spacing: 0 10px; /* 0 horizontal, 10px vertical */
+    width: 100%;
+    padding: 20px;
+}
+
+.hotel-row {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.hotel-row td {
+    padding: 15px; /* Padding à l'intérieur des cellules */
+    background-color: #fff; /* Fond blanc pour chaque cellule */
+    border: 1px solid #ddd;
+}
+
+.hotel-row:hover {
+    background-color: #e8f4f8; /* Bleu clair pour l'effet de survol */
+    transform: scale(1.02); /* Zoom léger */
+    z-index: 2; /* Assure que la ligne survolée est au-dessus des autres */
+}
+
+.hotel-row:hover td {
+    background-color: #e8f4f8; /* Assure que toutes les cellules changent de couleur */
+}
+
+
+.hotel-row:hover td:first-child {
+    font-weight: bold;
+}
+
+.hotel-row::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: linear-gradient(to right, #3498db, #2980b9);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.hotel-row:hover::after {
+    transform: scaleX(1);
+}
+
+
+
+.delete-hotel {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+    background-color: white; /* Rouge pour le bouton de suppression */
+    padding: 5px 5px;
+    border-radius: 4px;
+}
+
+.delete-hotel:hover {
+    opacity: 1;
+    box-shadow: rgba(240, 46, 46, 0.4) -5px 5px, rgba(240, 46, 46, 0.3) -10px 10px, rgba(240, 46, 46, 0.2) -15px 15px, rgba(240, 46, 46, 0.1) -20px 20px, rgba(240, 46, 46, 0.05) -25px 25px;
+}
+
+.hotel-row:hover .delete-hotel {
+    opacity: 1;
+}
+
+.open-new-tab {
+    cursor: pointer;
+    margin-left: 10px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.open-new-tab:hover {
+    opacity: 1;
+}
+
+
+/* Ajout de styles pour éviter le débordement */
+.table-container {
+    overflow-x: auto;
+}
+
+
+
+
+/* MODAL WINDOW  */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    width: 95%;
+    height: 95vh;
+    margin: 2.5vh auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.screenshot-btn {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.screenshot-btn:hover {
+    background-color: #45a049;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.search-result {
+    margin-bottom: 20px;
+}
+
+
+/* EXPORT BUTTON  */
+
+#export-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#export-button:hover {
+    background-color: #45a049;
+}
+
+
+/* FILTER  */
+
+#percentage-filter {
+    margin-top: 10px;
+}
+
+#percentage-filter input[type="number"] {
+    width: 60px;
+    margin: 0 5px;
+}
