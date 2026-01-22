@@ -33,6 +33,41 @@ Le package.json contient des scripts bien organisés, groupés par phase d'exéc
 - **Vérifications** : `npm run check:cities`, `npm run check:results`, `npm run check:dates`
 - **Utilitaires** : `npm run geocode`
 
+### Guide d'exécution des scripts
+
+**Règle principale : Tous les scripts s'exécutent depuis la racine du projet** (`C:\Users\ScrapingTA\Documents\Scraping\`)
+
+Ne jamais `cd` dans un sous-répertoire avant d'exécuter un script npm ou node.
+
+| Phase | Script npm | Commande node directe | Description | Données |
+|-------|-----------|----------------------|-------------|---------|
+| **0 - Installation** | `npm run 0:install` | - | Installe les dépendances | - |
+| **0 - Aide** | `npm run 0:help` | - | Affiche l'aide complète | Lecture seule |
+
+| **1 - Dates** | `npm run 1:dates` | `node src/dates/index.js` | Génère Dates.json (interactif) | ÉCRASE (fusion sources avant) |
+| **1 - Vérif dates** | `npm run 1:dates-check` | - | Vérifie les dates générées | Lecture seule |
+
+| **2 - Scraping** | `npm run 2:scrape` | `node src/scraping/index.js` | Scraping complet de toutes les villes | FUSIONNE hôtels dans Excel |
+| **2 - Test scraping** | `npm run 2:scrape-test` | `node src/scraping/scrapeHotels.js` | Test de scraping individuel | ÉCRASE hotels_data.json |
+
+| **3 - Résumé Excel** | `npm run 3:map-resume` | `node src/MapLeaflet/index1_generateResume.js` | Génère resultat.xlsx | ÉCRASE (lit sources Excel) |
+| **3 - Données carte** | `npm run 3:map-data` | `node src/MapLeaflet/generateMap.js` | Génère mapData.js | ÉCRASE (lit resultat.xlsx) |
+| **3 - Tout** | `npm run 3:map-all` | - | Exécute resume + data | ÉCRASE (lit sources) |
+
+| **4 - Serveur** | `npm start` | `node server.js` | Démarre le serveur (port 3000) | Lecture seule |
+
+| **Géocodage** | `npm run geocode` | `node src/geoCodingNinja/indexNinjasAPI.js` | Géocodage avec API Ninja | ÉCRASE coordonnées |
+| **Check villes** | `npm run check:cities` | - | Liste les villes configurées | Lecture seule |
+| **Check résultats** | `npm run check:results` | - | Liste les fichiers Excel générés | Lecture seule |
+| **Check dates** | `npm run check:dates` | - | Affiche les dates configurées | Lecture seule |
+
+**Légende Données** :
+- **Lecture seule** : Aucune modification de fichier
+- **FUSIONNE** : Combine les nouvelles données avec les existantes (pas de perte)
+- **ÉCRASE** : Remplace le fichier de sortie (les sources restent intactes)
+
+**Note technique** : Le serveur (`server.js`) gère automatiquement le changement de répertoire pour les scripts MapLeaflet via `execSync` avec l'option `cwd`. Vous n'avez pas à vous en soucier si vous utilisez `npm start`.
+
 ## Architecture
 
 ### Pipeline de flux de données
