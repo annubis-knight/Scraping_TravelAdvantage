@@ -62,7 +62,7 @@ async function main() {
     console.log('Nombre total de dates après fusion et déduplication:', finalDates.length);
 
     // Enregistrer le résultat dans Dates.json
-    fs.writeFileSync('../scraping/json/Dates.json', JSON.stringify(finalDates, null, 2));
+    fs.writeFileSync(path.join(__dirname, '../scraping/json/Dates.json'), JSON.stringify(finalDates, null, 2));
     console.log('Les dates finales ont été enregistrées dans Dates.json');
 
   } catch (error) {

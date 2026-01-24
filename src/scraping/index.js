@@ -8,7 +8,7 @@ const { formatDate } = require('./formatDate.js');
 async function main() {
     try {
         // EXCEL INPUT (Villes)
-        const { inputWorkbook, inputWorksheet } = await readInputExcel('./villesDeDestinations.xlsx');
+        const { inputWorkbook, inputWorksheet } = await readInputExcel(path.join(__dirname, 'villesDeDestinations.xlsx'));
 
         // JSON INPUT (Dates)
         const dates = require('./json/Dates.json');
@@ -16,7 +16,7 @@ async function main() {
         // BOUCLE 1 (Selection de chaque ville)
         for (let i = 2; i <= inputWorksheet.rowCount; i++) {
             const cityData = extractCityData(inputWorksheet.getRow(i));
-            await inputWorkbook.xlsx.writeFile('./villesDeDestinations.xlsx');
+            await inputWorkbook.xlsx.writeFile(path.join(__dirname, 'villesDeDestinations.xlsx'));
 
             if (!cityData) {
                 console.log(`Données manquantes pour la ligne ${i}`);
@@ -94,10 +94,10 @@ function compareHotels(hotel1, hotel2) {
         return 0; // Hôtels non comparables si types de réservation différents
     }
 
-    const reduction1 = parseFloat(hotel1.reduction);
-    const reduction2 = parseFloat(hotel2.reduction);
-    const prix1 = parseFloat(hotel1.prixTravel);
-    const prix2 = parseFloat(hotel2.prixTravel);
+    const reduction1 = parseFloat(hotel1.reduction.replace('%', ''));
+    const reduction2 = parseFloat(hotel2.reduction.replace('%', ''));
+    const prix1 = parseFloat(hotel1.prixTravel.replace(/[€ ]/g, ''));
+    const prix2 = parseFloat(hotel2.prixTravel.replace(/[€ ]/g, ''));
 
     if (isNaN(reduction1) || isNaN(reduction2) || isNaN(prix1) || isNaN(prix2)) {
         return 0; // Valeurs non valides, considérer comme équivalents
@@ -145,12 +145,12 @@ function removeDuplicates(newHotels, savedHotels) {
 }
 
 function filterHotels(hotels) {
-    const prices = Object.values(hotels).map(hotel => parseFloat(hotel.prixTravel.replace(' €', '')));
+    const prices = Object.values(hotels).map(hotel => parseFloat(hotel.prixTravel.replace(/[€ ]/g, '')));
     const averagePrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
-    console.log('moyenne de la page : ' + averagePrice);
+    console.log('moyenne de la page : ' + averagePrice.toFixed(2) + '€');
     return Object.fromEntries(
-        Object.entries(hotels).filter(([_, hotel]) => 
-            parseFloat(hotel.prixTravel.replace(' €', '')) <= 2 * averagePrice
+        Object.entries(hotels).filter(([_, hotel]) =>
+            parseFloat(hotel.prixTravel.replace(/[€ ]/g, '')) <= 2 * averagePrice
         )
     );
 }

@@ -127,7 +127,7 @@ function updateStatsJson(statsJson, statistiques, ville, date) {
     }
 
     // Sauvegarde des mises à jour
-    fs.writeFileSync('./json/statistiques.json', JSON.stringify(statsJson, null, 2));
+    fs.writeFileSync(path.join(__dirname, './json/statistiques.json'), JSON.stringify(statsJson, null, 2));
 
     return statsJson[ville][date];
 }

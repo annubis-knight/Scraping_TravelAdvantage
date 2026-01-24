@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');                                           
 const ExcelJS = require('exceljs');                                     
 
-const dossierVilles = path.join('../scraping/saveData/datasVilles');    
+const dossierVilles = path.join(__dirname, '../scraping/saveData/datasVilles');    
 const donneesParMois = {};                                              
 
 /*
@@ -45,7 +45,7 @@ const creerFichierResultat = async () => {
         ws.columns.forEach(column => column.width = 15);                // Ajuste la largeur des colonnes
     });
 
-    await wbResultat.xlsx.writeFile('resultat.xlsx');                   // Écrit le fichier résultat
+    await wbResultat.xlsx.writeFile(path.join(__dirname, 'resultat.xlsx'));  // Écrit le fichier résultat
 };
 
 /**

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parser');
+const path = require('path');
 
 function parseDateAndFormat(dateString) {
   if (!dateString) {
@@ -28,7 +29,7 @@ function processCSV() {
     const results = [];
 
     try {
-        fs.createReadStream('datesAdditionnelles.csv')
+        fs.createReadStream(path.join(__dirname, 'datesAdditionnelles.csv'))
           .pipe(csv({ separator: ';', headers: false }))
           .on('data', (row) => {
             console.log('Ligne lue:', row);

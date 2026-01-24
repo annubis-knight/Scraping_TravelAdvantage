@@ -4,8 +4,8 @@ const path = require('path');
 
 async function generateMapData() {
     const workbook = new ExcelJS.Workbook();
-    const resultatPath = path.join('resultat.xlsx');
-    const villesPath = path.join('../scraping/villesDeDestinations.xlsx');
+    const resultatPath = path.join(__dirname, 'resultat.xlsx');
+    const villesPath = path.join(__dirname, '../scraping/villesDeDestinations.xlsx');
 
     // Lire le fichier des villes de destinations
     const villesWorkbook = new ExcelJS.Workbook();
@@ -59,7 +59,7 @@ async function generateMapData() {
     });
 
     const fileContent = `const mapData = ${JSON.stringify(mapData, null, 2)};`;
-    await fs.writeFile('mapData.js', fileContent);
+    await fs.writeFile(path.join(__dirname, 'mapData.js'), fileContent);
     console.log("Le fichier mapData.js a été créé avec succès.");
 }
 

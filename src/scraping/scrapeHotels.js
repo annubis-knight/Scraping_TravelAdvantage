@@ -8,13 +8,16 @@ async function scrapeHotels(ville, pays, lati, longi, paysXX, fromDate, toDate, 
     
     try {
         browser = await puppeteer.launch({
-            userDataDir: "./user_data",
+            userDataDir: path.join(__dirname, "user_data"),
             defaultViewport: { width: 1680, height: 920 },
-            headless: "new",
+            headless: false,
             args: [
-                '--window-position=-32000,-32000',
+                '--window-position=0,0',
                 '--no-sandbox',
-                '--disable-setuid-sandbox'
+                '--disable-setuid-sandbox',
+                '--no-first-run',
+                '--disable-extensions',
+                '--disable-default-apps'
             ]
             //   headless: false,
             //   args: [
@@ -47,32 +50,36 @@ async function scrapeHotels(ville, pays, lati, longi, paysXX, fromDate, toDate, 
         const url = `https://www.traveladvantage.com/hotel/search/${destination}?search_type=${searchType}&search_id=${searchId}&lat=${latitude}&lon=${longitude}&place_id=${placeId}&google_places_city=${googlePlacesCity}&google_places_country=${googlePlacesCountry}&from_date=${fromDate}&to_date=${toDate}&adults=${adults}&children=${children}&rooms=${rooms}&room_adults[]=${roomAdults}&room_children[]=${roomChildren}&submit=Rechercher&lang=${lang}`;
 
         console.log(`🌐 URL visitée: ${url}`);
-        await page.goto(url, { waitUntil: "networkidle2", timeout: 120000 });
-        console.log(`✅ Page chargée, titre: "${await page.title()}"`);
+        console.log(`⏳ Chargement de la page (timeout: 60s)...`);
+        const gotoStart = Date.now();
+        await page.goto(url, { waitUntil: "networkidle2", timeout: 60000 });
+        const gotoElapsed = ((Date.now() - gotoStart) / 1000).toFixed(1);
+        console.log(`✅ Page chargée en ${gotoElapsed}s, titre: "${await page.title()}"`);
 
         // ### Screenshot AVANT recherche du sélecteur pour debug ###
-        const screenshotDir = path.join('saveData','images','screenshots',ville,`screenshots_${currentDateTime.slice(0, 10)}` // Format YYYY-MM-DD
+        const screenshotDir = path.join(__dirname, 'saveData','images','screenshots',ville,`screenshots_${currentDateTime.slice(0, 10)}` // Format YYYY-MM-DD
         );
         fs.mkdirSync(screenshotDir, { recursive: true });
         await page.screenshot({
             path: path.join(screenshotDir, `${ville}_${fromDate}_${toDate}.jpeg`),
-            quality: 40, // Qualité entre 0-100[1]
-            fullPage: true,
-            clip: {
-                x: 0,
-                y: 0,
-                width: 1680,
-                height: 1440
-            }
+            quality: 40, // Qualité entre 0-100
+            fullPage: true
         });
         console.log(`Screenshot de debug sauvegardée dans: ${screenshotDir}`);
 
+        console.log(`⏳ Attente des résultats d'hôtels (timeout: 240s)...`);
         await waitForSelector(page, '.hotel_search_list .list_card');
+
+        // Attendre que les données se chargent complètement
+        console.log(`⏳ Attente de 10s pour le chargement des données...`);
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        console.log(`✅ Délai terminé, extraction des données...`);
 
         // Extraire les données de tous les éléments .list_card visibles
         const visibleItems = await extractAllHotelData(page);
 
-        // console.log(`Éléments visibles pour ${ville} du ${fromDate} au ${toDate}:`, visibleItems);
+        // Afficher les données récupérées de manière structurée
+        logHotelData(visibleItems, ville, fromDate, toDate);
 
         // Créer l'objet JSON
         const hotelsData = {};
@@ -122,46 +129,92 @@ async function scrapeHotels(ville, pays, lati, longi, paysXX, fromDate, toDate, 
     }
 }
 
-async function waitForSelector(page, selector, timeout = 60000) {
+async function waitForSelector(page, selector, timeout = 240000) {
+    const startTime = Date.now();
     try {
         await page.waitForSelector(selector, { timeout });
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        console.log(`✅ Sélecteur trouvé en ${elapsed}s`);
     } catch (error) {
-        console.warn(`Le sélecteur "${selector}" n'a pas été trouvé dans le délai imparti.`);
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        console.warn(`⚠️ Timeout après ${elapsed}s - Sélecteur "${selector}" non trouvé`);
     }
 }
 
 async function extractAllHotelData(page) {
-    return await page.evaluate(() => {
+    const result = await page.evaluate(() => {
         const items = Array.from(document.querySelectorAll('.hotel_search_list .list_card'));
-        return items.filter(item => getComputedStyle(item).display !== 'none').map(item => {
-            const getData = (selector, defaultValue) =>
-                item.querySelector(selector)?.innerText || defaultValue;
+        const visibleItems = items.filter(item => getComputedStyle(item).display !== 'none');
 
-            const getStars = () => {
-                const starRating = item.querySelector('.list_details .star_rating');
-                if (starRating) {
-                    for (let i = 5; i >= 0; i--) {
-                        if (starRating.classList.contains(`star_${i}`)) {
-                            return i;
-                        }
+        const selectorsConfig = {
+            nomHotel: { selector: 'h4.not-select', default: 'Nom non disponible' },
+            location: { selector: 'p span.w-auto', default: 'Emplacement non disponible' },
+            note: { selector: '.score span', default: 'Note non disponible' },
+            reduction: { selector: '.saving_per span', default: 'Économies non disponibles' },
+            prixTravel: { selector: '.list_price .price_pay li:last-child span', default: 'Prix non disponible' },
+            prixConcurrents: { selector: '.price_detail li:first-child span', default: 'Prix normal non disponible' },
+            economiesMembres: { selector: '.price_detail li:nth-child(2) span', default: 'Économies membres non disponibles' }
+        };
+
+        const hotels = [];
+        const missingSelectors = [];
+
+        visibleItems.forEach((item, index) => {
+            const hotelData = {};
+
+            // Extraire chaque champ avec tracking des sélecteurs manquants
+            for (const [field, config] of Object.entries(selectorsConfig)) {
+                const element = item.querySelector(config.selector);
+                if (element) {
+                    hotelData[field] = element.innerText;
+                } else {
+                    hotelData[field] = config.default;
+                    missingSelectors.push({ hotel: index + 1, field, selector: config.selector });
+                }
+            }
+
+            // Étoiles (logique spéciale)
+            const starRating = item.querySelector('.list_details .star_rating');
+            if (starRating) {
+                let stars = 'Non spécifié';
+                for (let i = 5; i >= 0; i--) {
+                    if (starRating.classList.contains(`star_${i}`)) {
+                        stars = i;
+                        break;
                     }
                 }
-                return 'Non spécifié';
-            };
+                hotelData.etoiles = stars;
+            } else {
+                hotelData.etoiles = 'Non spécifié';
+                missingSelectors.push({ hotel: index + 1, field: 'etoiles', selector: '.list_details .star_rating' });
+            }
 
-            return {
-                nomHotel: getData('h4.not-select', 'Nom non disponible'),
-                location: getData('p span.w-auto', 'Emplacement non disponible'),
-                etoiles: getStars(),
-                note: getData('.score span', 'Note non disponible'),
-                reduction: getData('.saving_per span', 'Économies non disponibles'),
-                prixTravel: getData('.list_price .price_pay li:last-child span', 'Prix non disponible'),
-                prixConcurrents: getData('.price_detail li:first-child span', 'Prix normal non disponible'),
-                economiesMembres: getData('.price_detail li:nth-child(2) span', 'Économies membres non disponibles'),
-                imageUrl: item.querySelector('.list_img img')?.src || null
-            };
+            // Image URL
+            const imgElement = item.querySelector('.list_img img');
+            hotelData.imageUrl = imgElement?.src || null;
+            if (!imgElement) {
+                missingSelectors.push({ hotel: index + 1, field: 'imageUrl', selector: '.list_img img' });
+            }
+
+            hotels.push(hotelData);
         });
+
+        return { hotels, missingSelectors, totalCards: visibleItems.length };
     });
+
+    // Afficher les informations de débogage
+    console.log(`📊 ${result.totalCards} cartes d'hôtels trouvées`);
+
+    if (result.missingSelectors.length > 0) {
+        console.warn(`⚠️ ${result.missingSelectors.length} sélecteurs manquants:`);
+        result.missingSelectors.forEach(m => {
+            console.warn(`   Hôtel #${m.hotel} - ${m.field}: "${m.selector}" non trouvé`);
+        });
+    } else {
+        console.log(`✅ Tous les sélecteurs ont été trouvés`);
+    }
+
+    return result.hotels;
 }
 
 async function saveImage(page, imageUrl, filePath) {
@@ -181,8 +234,46 @@ function getCurrentDateTime() {
     return `${date} ${time}`;
 }
 
+function logHotelData(hotels, ville, fromDate, toDate) {
+    // Couleurs ANSI
+    const colors = {
+        reset: '\x1b[0m',
+        cyan: '\x1b[36m',
+        yellow: '\x1b[33m',
+        green: '\x1b[32m',
+        magenta: '\x1b[35m',
+        white: '\x1b[37m',
+        dim: '\x1b[2m',
+        bright: '\x1b[1m'
+    };
+
+    const c = colors;
+
+    console.log(`\n${c.cyan}${c.bright}╔════════════════════════════════════════════════════════════════╗${c.reset}`);
+    console.log(`${c.cyan}${c.bright}║${c.reset}  ${c.yellow}📍 ${ville}${c.reset} ${c.dim}│${c.reset} ${c.white}${fromDate} → ${toDate}${c.reset}`);
+    console.log(`${c.cyan}${c.bright}╠════════════════════════════════════════════════════════════════╣${c.reset}`);
+
+    if (hotels.length === 0) {
+        console.log(`${c.cyan}║${c.reset}  ${c.yellow}⚠️ Aucun hôtel récupéré${c.reset}`);
+    } else {
+        hotels.forEach((hotel, index) => {
+            console.log(`${c.cyan}║${c.reset} ${c.magenta}${c.bright}#${index + 1}${c.reset} ${c.green}${hotel.nomHotel}${c.reset}`);
+            console.log(`${c.cyan}║${c.reset}    ${c.dim}📍 Location:${c.reset} ${hotel.location}`);
+            console.log(`${c.cyan}║${c.reset}    ${c.dim}⭐ Étoiles:${c.reset} ${hotel.etoiles} ${c.dim}│${c.reset} ${c.dim}📊 Note:${c.reset} ${hotel.note}`);
+            console.log(`${c.cyan}║${c.reset}    ${c.dim}💰 Prix Travel:${c.reset} ${c.green}${hotel.prixTravel}${c.reset} ${c.dim}│${c.reset} ${c.dim}Prix Concurrent:${c.reset} ${hotel.prixConcurrents}`);
+            console.log(`${c.cyan}║${c.reset}    ${c.dim}🏷️ Réduction:${c.reset} ${c.yellow}${hotel.reduction}${c.reset} ${c.dim}│${c.reset} ${c.dim}Économies:${c.reset} ${hotel.economiesMembres}`);
+            if (index < hotels.length - 1) {
+                console.log(`${c.cyan}║${c.reset}    ${c.dim}────────────────────────────────────────${c.reset}`);
+            }
+        });
+    }
+
+    console.log(`${c.cyan}${c.bright}╚════════════════════════════════════════════════════════════════╝${c.reset}\n`);
+}
+
 // Exporter la fonction scrapeHotels pour l'utiliser dans main.js
 module.exports = { scrapeHotels };
 
-scrapeHotels('Londres', 'Royaume-Uni', '51.5073','-0.1276','GB','2025-01-15','2025-01-17', 1);
+// Test standalone (décommenter pour tester)
+// scrapeHotels('Londres', 'Royaume-Uni', '51.5073','-0.1276','GB','2025-01-15','2025-01-17', 1);
 
